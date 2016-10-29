@@ -19,6 +19,26 @@
 import argparse
 import string
 
+alphabet = list(string.ascii_lowercase)
+
+def encrypt(message, key):
+  keyMap = ''
+  outputMessage = ''
+  while len(keyMap) < len(message):
+    keyMap = keyMap + key
+  keyMap = keyMap[:len(message)]
+
+  for c in message:
+    # if not c.isspace():
+    #   print c
+    print c == '\x20'
+
+  # print keyMap, alphabet
+
+  # for char in message:
+  #   outputMessage += outputMessage + char
+
+
 parser = argparse.ArgumentParser()
 parser.add_argument("-k", "--key",
   help="Enter your alphabetic encryption key",
@@ -41,4 +61,4 @@ if args.decrypt:
 if args.encrypt:
   print args.encrypt
 if args.message:
-  print message
+  encrypt(message, args.key.replace(" ", ""))
