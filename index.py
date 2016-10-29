@@ -17,28 +17,28 @@
 
 """
 import argparse
+import string
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-k", "--key",
-  help="Enter your alphabetic encryption key")
+  help="Enter your alphabetic encryption key",
+  type=str)
 parser.add_argument("-e", "--encrypt",
   help="specify encription",
   action="store_true")
 parser.add_argument("-d", "--decrypt",
   help="specify decription",
   action="store_true")
+parser.add_argument("-m", "--message",
+  type=file)
 args = parser.parse_args()
 encryptionKey = args.key
+message = args.message.read()
 if args.key:
-  print ("Your key is: %s" % encryptionKey)
+  print "Your key is: {}".format(args.key)
 if args.decrypt:
   print args.decrypt
 if args.encrypt:
   print args.encrypt
-
-# def getpass():
-#   print 'fd: ' + str(fd), 'old' + str(old)
-#   userKey = '{}'.format(raw_input('Enter key: '))
-#   print 'your key is: ' + userKey
-
-# getpass()
+if args.message:
+  print message
