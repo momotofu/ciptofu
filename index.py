@@ -22,7 +22,7 @@ import string
 alphabet = list(string.ascii_letters +
   string.punctuation + '\x20\n')
 
-def encrypt(message, key):
+def cypt(message, key):
   keyMap = ''
   outputMessage = ''
   while len(keyMap) < len(message):
@@ -52,9 +52,10 @@ parser.add_argument("-d", "--decrypt",
   action="store_true")
 parser.add_argument("-m", "--message",
   type=file)
+
 args = parser.parse_args()
-encryptionKey = args.key
 message = args.message.read()
+
 if args.key:
   print "Your key is: {}".format(args.key)
 if args.decrypt:
@@ -62,4 +63,4 @@ if args.decrypt:
 if args.encrypt:
   print args.encrypt
 if args.message:
-  print encrypt(message, args.key)
+  print cypt(message, args.key)
