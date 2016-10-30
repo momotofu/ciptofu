@@ -37,10 +37,9 @@ def encrypt(message, key):
     magnitude = alphabet.index(keyMap[i])
     end = start + magnitude
     if end > len(alphabet) - 1:
-      end = end - len(alphabet) - 1
-      if end < 0:
-        end *= - 1
+      end = (len(alphabet) - end) * -1
     outputMessage += alphabet[end]
+
   return outputMessage
 
 def decrypt(message, key):
@@ -52,11 +51,12 @@ def decrypt(message, key):
     magnitude = alphabet.index(keyMap[i])
     end = start - magnitude
     if end < 0:
-      end += len(alphabet)
-    # print end
+      end += len(alphabet) - 1
     outputMessage += alphabet[end]
-  print len(keyMap), len(message)
+
   return outputMessage
+
+print alphabet.index('\x20'), len(alphabet), 'str:' + alphabet[84] + '|'
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-k", "--key",
