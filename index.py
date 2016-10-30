@@ -22,7 +22,7 @@ import string
 alphabet = list(string.ascii_letters +
   string.punctuation + '\x20\n')
 
-def cypt(message, key):
+def encrypt(message, key):
   keyMap = ''
   outputMessage = ''
   while len(keyMap) < len(message):
@@ -37,6 +37,20 @@ def cypt(message, key):
       end = end - len(alphabet) - 1
       if end < 0:
         end = end * - 1
+    outputMessage += alphabet[end]
+  return outputMessage
+
+def decrypt(message, key):
+  keyMap = ''
+  outputMessage = ''
+  while len(keyMap) < len(message):
+    keyMap = keyMap + key
+  keyMap = keyMap[:len(message)]
+
+  for i, c in enumerate(message):
+    start = alphabet.index(c)
+    magnitude = alphabet.index(keyMap[i])
+    end = start - magnitude
     outputMessage += alphabet[end]
   return outputMessage
 
@@ -56,11 +70,12 @@ parser.add_argument("-m", "--message",
 args = parser.parse_args()
 message = args.message.read()
 
-if args.key:
-  print "Your key is: {}".format(args.key)
-if args.decrypt:
-  print args.decrypt
-if args.encrypt:
-  print args.encrypt
+# if args.key:
+#   print "Your key is: {}".format(args.key)
+# if args.decrypt:
+#   print args.decrypt
+# if args.encrypt:
+#   print args.encrypt
+
 if args.message:
-  print cypt(message, args.key)
+  print decrypt(encrypt(message, args.key), args.key)
