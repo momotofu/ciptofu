@@ -55,6 +55,7 @@ def decrypt(message, key):
       end += len(alphabet)
     # print end
     outputMessage += alphabet[end]
+  print len(keyMap), len(message)
   return outputMessage
 
 parser = argparse.ArgumentParser()
