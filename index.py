@@ -19,7 +19,8 @@
 import argparse
 import string
 
-alphabet = list(string.ascii_lowercase)
+alphabet = list(string.ascii_letters +
+  string.punctuation + '\x20\n')
 
 def encrypt(message, key):
   keyMap = ''
@@ -28,16 +29,16 @@ def encrypt(message, key):
     keyMap = keyMap + key
   keyMap = keyMap[:len(message)]
 
-  for c in message:
-    # if not c.isspace():
-    #   print c
-    print c == '\x20'
-
-  # print keyMap, alphabet
-
-  # for char in message:
-  #   outputMessage += outputMessage + char
-
+  for i, c in enumerate(message):
+    start = alphabet.index(c)
+    magnitude = alphabet.index(keyMap[i])
+    end = start + magnitude
+    if end > len(alphabet) - 1:
+      end = end - len(alphabet) - 1
+      if end < 0:
+        end = end * - 1
+    outputMessage += alphabet[end]
+  return outputMessage
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-k", "--key",
@@ -61,4 +62,4 @@ if args.decrypt:
 if args.encrypt:
   print args.encrypt
 if args.message:
-  encrypt(message, args.key.replace(" ", ""))
+  print encrypt(message, args.key)
