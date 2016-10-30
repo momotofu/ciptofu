@@ -22,12 +22,15 @@ import string
 alphabet = list(string.ascii_letters +
   string.punctuation + '\x20\n')
 
-def encrypt(message, key):
+def createKeyMap(message, key):
   keyMap = ''
-  outputMessage = ''
   while len(keyMap) < len(message):
     keyMap = keyMap + key
-  keyMap = keyMap[:len(message)]
+  return keyMap[:len(message)]
+
+def encrypt(message, key):
+  outputMessage = ''
+  keyMap = createKeyMap(message, key)
 
   for i, c in enumerate(message):
     start = alphabet.index(c)
@@ -36,21 +39,21 @@ def encrypt(message, key):
     if end > len(alphabet) - 1:
       end = end - len(alphabet) - 1
       if end < 0:
-        end = end * - 1
+        end *= - 1
     outputMessage += alphabet[end]
   return outputMessage
 
 def decrypt(message, key):
-  keyMap = ''
   outputMessage = ''
-  while len(keyMap) < len(message):
-    keyMap = keyMap + key
-  keyMap = keyMap[:len(message)]
+  keyMap = createKeyMap(message, key)
 
   for i, c in enumerate(message):
     start = alphabet.index(c)
     magnitude = alphabet.index(keyMap[i])
     end = start - magnitude
+    if end < 0:
+      end += len(alphabet)
+    # print end
     outputMessage += alphabet[end]
   return outputMessage
 
@@ -78,4 +81,5 @@ message = args.message.read()
 #   print args.encrypt
 
 if args.message:
+  print encrypt(message, args.key)
   print decrypt(encrypt(message, args.key), args.key)
