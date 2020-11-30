@@ -14,16 +14,56 @@ parser.add_argument("--dev",
   action="store_true")
 parser.add_argument("-m", "--message",
   type=str)
+parser.add_argument("-ifp", "--inFilePath",
+  type=str)
+parser.add_argument("-ofp", "--outFilePath",
+  type=str)
 
 args = parser.parse_args()
 key = args.key
 message = args.message
-should_encrypt = args.encrypt 
-should_decrypt = args.decrypt 
+
+should_encrypt = args.encrypt
+should_decrypt = args.decrypt
 isDev = args.dev
+
+inFilePath = args.inFilePath
+outFilePath = args.outFilePath
 
 if __name__ == '__main__':
   if should_encrypt:
-    print(encrypt(message, key, isDev))
+    if inFilePath:
+        file = open(inFilePath, 'r')
+        fileMessage = file.read()
+        file.close()
+
+        encryptedMessage = encrypt(fileMessage, key, isDev)
+
+        if outFilePath:
+            outFile = open(outFilePath, 'w')
+            outFile.write(encryptedMessage)
+            outFile.close()
+        else:
+            print(encryptedMessage)
+    else:
+        encryptedMessage = encrypt(message, key, isDev)
+        print(encryptedMessage)
+
   else:
-    print(decrypt(message, key, isDev))
+    if inFilePath:
+        file = open(inFilePath, 'r')
+        fileMessage = file.read()
+        file.close()
+
+        decryptedMessage = decrypt(fileMessage, key, isDev)
+
+        if outFilePath:
+            outFile = open(outFilePath, 'w')
+            outFile.write(decryptedMessage)
+            outFile.close()
+        else:
+            print(decryptedMessage)
+    else:
+        decryptedMessage = decrypt(message, key, isDev)
+        print(decryptedMessage)
+
